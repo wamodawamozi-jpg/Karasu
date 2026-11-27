@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#171b25"><title>烏の棲む空 | Focus 120</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;background:#171b25;color:#e8ebf2}
+:root{--bg:#171b25;--panel:#1c222e;--muted:#929baa;--line:#46505f;--white:#e8ebf2}
+#app{height:100dvh;min-height:520px;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+#landscape{height:40%;min-height:220px;max-height:48%;position:relative;overflow:hidden;flex-shrink:0;background:linear-gradient(180deg,#7e8998 0%,#697786 56%,#566372 100%);transition:background 2s}
+#landscape:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,22,32,.16),transparent 30%,rgba(17,25,35,.12));pointer-events:none}
+.sky-cloud{position:absolute;border-radius:60px;background:rgba(225,230,236,.22);filter:blur(2px);height:44px;animation:cloud 45s linear infinite}
+.sky-cloud:before,.sky-cloud:after{content:"";position:absolute;border-radius:50%;background:inherit}.sky-cloud:before{width:75px;height:52px;left:20px;top:-22px}.sky-cloud:after{width:90px;height:57px;left:72px;top:-17px}
+.c1{width:220px;top:23%;left:-240px}.c2{width:300px;top:44%;left:-320px;animation-delay:-20s;animation-duration:58s;opacity:.65}
+@keyframes cloud{to{transform:translateX(calc(100vw + 650px))}}
+#sun{position:absolute;width:clamp(54px,13vw,85px);aspect-ratio:1;border-radius:50%;right:12%;top:16%;background:#c7c6c0;opacity:.66;box-shadow:0 0 35px rgba(226,225,215,.16)}
+#headline{position:absolute;z-index:2;top:10%;left:5%;letter-spacing:.19em;font-size:clamp(15px,4.2vw,22px);font-weight:600;text-shadow:0 1px 8px rgba(16,22,30,.3)}
+#headline small{display:block;font-size:10px;letter-spacing:.25em;font-weight:400;margin-top:7px;opacity:.72}
+#birdfield{position:absolute;inset:0;z-index:3}
+.bird{position:absolute;width:62px;height:39px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18));animation:float 4.5s ease-in-out infinite}
+.bird svg{width:100%;height:100%}
+.bird path{fill:#131b25}
+.bird .wing{transform-origin:31px 16px;animation:flap .65s ease-in-out infinite alternate}
+.bird.perched .wing{animation:none}
+@keyframes flap{from{transform:rotate(-20deg)}to{transform:rotate(23deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+#treeLeft{position:absolute;bottom:0;left:2%;width:26%;height:45%;z-index:2}
+.tree-shape{position:absolute;bottom:0;left:20%;width:0;height:0;border-left:44px solid transparent;border-right:44px solid transparent;border-bottom:150px solid #25313d}
+.tree-shape:before{content:"";position:absolute;left:-34px;top:40px;border-left:34px solid transparent;border-right:34px solid transparent;border-bottom:90px solid #25313d}
+.trunk{position:absolute;bottom:0;left:calc(20% + 36px);width:13px;height:45px;background:#25313d}
+#treeRight{position:absolute;bottom:0;right:2%;width:22%;height:34%;z-index:2;transform:scale(.75);transform-origin:bottom right}
+.city{position:absolute;bottom:0;left:0;right:0;height:22%;display:flex;align-items:flex-end;gap:2%;z-index:1}
+.building{flex:1;background:#2b3744;height:var(--h);position:relative;min-width:4%}.building:after{content:"";position:absolute;inset:12% 18%;background:repeating-linear-gradient(180deg,rgba(190,198,205,.12) 0 4px,transparent 4px 13px)}
+.ground{position:absolute;bottom:0;left:0;right:0;height:9%;background:linear-gradient(#384451,#202833);z-index:4}
+#timerSection{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;padding:clamp(16px,4vh,30px) 6% calc(14px + env(safe-area-inset-bottom));background:var(--bg);overflow:auto}
+#timer{font-size:clamp(46px,13vw,78px);font-weight:650;letter-spacing:.035em;line-height:1.08;font-variant-numeric:tabular-nums;margin:0 0 8px;white-space:nowrap}
+#ready{font-size:11px;letter-spacing:.24em;color:var(--muted);margin-bottom:clamp(18px,4vh,28px)}
+.progress-wrap{width:100%}
+#track{height:8px;border-radius:99px;background:#394250;overflow:hidden}
+#fill{height:100%;width:0;background:#d1d7e0;border-radius:99px;transition:width .4s linear}
+#stats{display:flex;justify-content:space-between;width:100%;font-size:12px;color:#a5adba;margin-top:10px}
+#milestones{width:100%;display:flex;justify-content:space-between;margin:20px 0 18px;color:#8791a0;font-size:11px}
+.milestone{display:flex;flex-direction:column;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;background:#46505e}.milestone.done .dot{background:#d6dce4;box-shadow:0 0 10px rgba(214,220,228,.25)}
+#message{width:100%;background:rgba(255,255,255,.035);border-left:3px solid #8c98a9;padding:13px 15px;margin:0 0 18px;font-size:13px;line-height:1.9;letter-spacing:.04em;color:#e3e7ed}
+#message span{display:block}
+.buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;width:100%}
+button{border:1px solid #6c7787;background:transparent;color:#e6eaf0;border-radius:17px;padding:14px 5px;font-size:14px;font-weight:600;letter-spacing:.05em}
+button:active{transform:scale(.98)}
+#start{background:#cbd3de;color:#202733;border-color:#aab4c1}
+#footer{font-size:10px;letter-spacing:.24em;color:#7c8796;margin-top:17px}
+#done{position:fixed;inset:0;display:none;z-index:20;background:rgba(13,18,26,.83);backdrop-filter:blur(10px);place-items:center;text-align:center;padding:25px}
+#done.show{display:grid}#done h2{font-weight:500;letter-spacing:.14em;font-size:30px}#done p{line-height:2;letter-spacing:.1em;color:#c8d0da}
+#done button{margin-top:12px;padding-inline:24px}
+@media(max-height:700px){#landscape{height:36%;min-height:190px}#timerSection{padding-top:13px}#ready{margin-bottom:13px}#milestones{margin:12px 0}#message{padding:10px 12px;margin-bottom:12px}.buttons button{padding:11px 4px}#footer{margin-top:10px}}
+
+/* Calm living landscape: crows perch on a visible wire */
+#wire{position:absolute;left:0;right:0;top:54%;height:2px;z-index:2;background:rgba(18,25,34,.78);box-shadow:0 1px 0 rgba(230,235,238,.18)}
+#wire:before,#wire:after{content:"";position:absolute;top:-1px;width:2px;height:95px;background:rgba(18,25,34,.65)}
+#wire:before{left:5%}#wire:after{right:6%}
+#wire span{position:absolute;left:0;right:0;top:0;height:22px;border-bottom:1px solid rgba(20,27,36,.5);border-radius:0 0 50% 50%;transform:translateY(-10px)}
+#rainLayer{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;background:repeating-linear-gradient(105deg,transparent 0 18px,rgba(200,218,230,.32) 19px 20px,transparent 21px 33px);background-size:100% 28px;transition:opacity 1.2s}
+#landscape.rainy #rainLayer{opacity:.3;animation:rainmove .35s linear infinite}
+@keyframes rainmove{to{background-position:0 28px}}
+#wind{position:absolute;z-index:2;left:-25%;top:32%;width:150%;height:38px;border-top:1px solid rgba(223,231,235,.12);border-radius:50%;transform:rotate(-3deg);animation:winddrift 8s ease-in-out infinite alternate;pointer-events:none}
+@keyframes winddrift{from{transform:translateX(-2%) rotate(-3deg);opacity:.35}to{transform:translateX(3%) rotate(1deg);opacity:.7}}
+#treeLeft,#treeRight{animation:treesway 5s ease-in-out infinite alternate;transform-origin:bottom center}
+#treeRight{animation:treeswayRight 5.4s ease-in-out infinite alternate;animation-delay:-2.1s}
+@keyframes treeswayRight{from{transform:scale(.75) rotate(-1deg)}to{transform:scale(.75) rotate(1.3deg)}}
+@keyframes treesway{from{transform:rotate(-1.1deg)}to{transform:rotate(1.2deg)}}
+.bird{animation:none;position:absolute;width:58px;height:35px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.bird svg{overflow:visible}
+.bird .wing{transform-origin:30px 17px;animation:none}
+.bird.perched{animation:crowidle 7s ease-in-out infinite}
+.bird.perched .wing{animation:none;transform:rotate(0)}
+.bird.preen .wing{animation:preen .8s ease-in-out 2}
+.bird.flap .wing{animation:flap .22s ease-in-out 6 alternate}
+@keyframes crowidle{0%,100%{translate:0 0}50%{translate:0 -1px}}
+@keyframes preen{0%,100%{transform:rotate(0)}50%{transform:rotate(30deg) translateY(3px)}}
+@keyframes flap{from{transform:rotate(-40deg)}to{transform:rotate(35deg)}}
+@keyframes arrive{0%{transform:translate(-45vw,-8vh) scale(.8)}65%{transform:translate(0,0) scale(1.05)}100%{transform:translate(0,0) scale(1)}}
+#birdfield{z-index:4}
+#headline{z-index:6}
+@media(max-height:700px){#wire{top:53%}}
+
+</style></head><body><main id="app">
+<section id="landscape">
+<div id="wire"><span></span></div><div id="rainLayer"></div><div id="wind"></div>
+<div id="sun"></div><div class="sky-cloud c1"></div><div class="sky-cloud c2"></div>
+<div id="headline">烏の棲む空<small>120 MINUTES · FOCUS SESSION</small></div>
+<div id="birdfield"></div>
+<div id="treeLeft"><div class="tree-shape"></div><div class="trunk"></div></div>
+<div id="treeRight"><div class="tree-shape"></div><div class="trunk"></div></div>
+<div class="city"><div class="building" style="--h:35%"></div><div class="building" style="--h:52%"></div><div class="building" style="--h:40%"></div><div class="building" style="--h:72%"></div><div class="building" style="--h:33%"></div><div class="building" style="--h:48%"></div><div class="building" style="--h:60%"></div><div class="building" style="--h:43%"></div><div class="building" style="--h:77%"></div><div class="building" style="--h:38%"></div><div class="building" style="--h:55%"></div><div class="building" style="--h:67%"></div></div><div class="ground"></div>
+</section>
+<section id="timerSection">
+<div id="timer">02:00:00</div><div id="ready">120 MINUTES · READY</div>
+<div class="progress-wrap"><div id="track"><div id="fill"></div></div><div id="stats"><span>経過 00:00</span><span id="percent">0%</span><span>目標 120分</span></div></div>
+<div id="milestones"><div class="milestone" data-min="30"><i class="dot"></i><span>30分</span></div><div class="milestone" data-min="60"><i class="dot"></i><span>60分</span></div><div class="milestone" data-min="90"><i class="dot"></i><span>90分</span></div><div class="milestone" data-min="120"><i class="dot"></i><span>120分</span></div></div>
+<div id="message"><span>「静かに、確実に。今日の自分を積み上げる。」</span><span id="birdMessage">電線のカラスは、君が始めるのを待っている。</span></div>
+<div class="buttons"><button id="start">勉強開始</button><button id="pause">一時停止</button><button id="reset">リセット</button></div><div id="footer">PHONE DOWN · FOCUS UP</div>
+</section></main><div id="done"><div><h2>120分、完遂。</h2><p>空が晴れた。<br>今日の自分との約束を、守ったね。</p><button id="closeDone">空に戻る</button></div></div>
+<script>
+(()=>{
+ const total=7200;let left=total,interval=null,spawnTimer=null,behaviorTimer=null,rainTimer=null;
+ const timer=document.getElementById('timer'),fill=document.getElementById('fill'),stats=document.querySelector('#stats span'),pct=document.getElementById('percent'),start=document.getElementById('start'),pause=document.getElementById('pause'),field=document.getElementById('birdfield'),land=document.getElementById('landscape'),wire=document.getElementById('wire');
+ const quotes=['「静かに、確実に。今日の自分を積み上げる。」','「焦らずとも、進んだ分だけ景色は変わる。」','「小さな約束を守る人が、自分の軸をつくる。」','「風が吹いても、止まり木はここにある。」','「今日の一歩は、明日の自分への手紙。」','「静かな努力は、ちゃんと自分に残る。」'];
+ const svg='<svg viewBox="0 0 62 39"><path d="M4 25Q13 13 23 17Q31 9 40 15L60 19L48 22Q42 30 31 25Q20 31 4 25Z"/><path class="wing" d="M19 19Q27 5 37 16Q30 21 25 24Z"/><circle cx="41" cy="16" r="1.7" fill="#d9dfe5"/><path d="M28 25l-1 8m7-8 1 8m-8 0h-3m12 0h3" stroke="#111923" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>';
+ function addPerchedCrow(slot, newcomer=false){let b=document.createElement('div');b.className='bird perched'+(newcomer?' arriving':'');b.innerHTML=svg;b.dataset.slot=slot;let positions=[18,36,54,72,87];b.style.left=positions[slot]+'%';b.style.top='calc(54% - 34px)';if(newcomer){b.style.animation='arrive 2.8s ease-out forwards, crowidle 7s 2.8s ease-in-out infinite';b.style.opacity='1';setTimeout(()=>{b.style.animation='crowidle 7s ease-in-out infinite'},2800)}field.appendChild(b);return b}
+ function addFlyingCrow(){let b=document.createElement('div');b.className='bird';b.innerHTML=svg;b.style.left=(-15)+'%';b.style.top=(23+Math.random()*22)+'%';b.style.transition='left 7s ease-in-out, top 7s ease-in-out';field.appendChild(b);requestAnimationFrame(()=>{b.style.left='110%';b.style.top=(18+Math.random()*27)+'%'});setTimeout(()=>b.remove(),8000)}
+ function crowBehavior(){let perched=[...field.querySelectorAll('.bird.perched')];if(perched.length){let c=perched[Math.floor(Math.random()*perched.length)];let act=Math.random()<.65?'preen':'flap';c.classList.remove('preen','flap');void c.offsetWidth;c.classList.add(act);setTimeout(()=>c.classList.remove(act),act==='preen'?1800:1500)}behaviorTimer=setTimeout(crowBehavior,9000+Math.random()*18000)}
+ function scheduleArrival(){if(!interval)return;spawnTimer=setTimeout(()=>{if(field.querySelectorAll('.bird.perched').length<5){let used=[...field.querySelectorAll('.bird.perched')].map(b=>+b.dataset.slot);let slot=[0,1,2,3,4].find(i=>!used.includes(i));if(slot!==undefined)addPerchedCrow(slot,true)}else addFlyingCrow();scheduleArrival()},38000+Math.random()*55000)}
+ function scheduleRain(){rainTimer=setTimeout(()=>{if(Math.random()<.58){land.classList.add('rainy');setTimeout(()=>land.classList.remove('rainy'),9000+Math.random()*14000)}scheduleRain()},25000+Math.random()*40000)}
+ function fmt(s){let h=Math.floor(s/3600),m=Math.floor(s%3600/60),ss=s%60;return[h,m,ss].map(x=>String(x).padStart(2,'0')).join(':')}
+ function draw(){timer.textContent=fmt(left);let elapsed=total-left;fill.style.width=(elapsed/total*100)+'%';stats.textContent='経過 '+fmt(elapsed).slice(3);pct.textContent=Math.floor(elapsed/total*100)+'%';document.querySelectorAll('.milestone').forEach(el=>el.classList.toggle('done',elapsed>=Number(el.dataset.min)*60));if(elapsed>0&&elapsed%1800===0){let msg=quotes[Math.floor(Math.random()*quotes.length)];document.querySelector('#message span:first-child').textContent=msg}}
+ function stop(){clearInterval(interval);clearTimeout(spawnTimer);interval=null;spawnTimer=null;start.textContent='再開'}
+ function step(){left=Math.max(0,left-1);draw();if(left===0){stop();document.getElementById('done').classList.add('show');start.textContent='完了'}}
+ start.onclick=()=>{if(left<=0)return;if(!interval){interval=setInterval(step,1000);start.textContent='勉強中';scheduleArrival()}};
+ pause.onclick=()=>{if(interval){stop()}else if(left<total&&left>0){interval=setInterval(step,1000);start.textContent='勉強中';scheduleArrival()}};
+ document.getElementById('reset').onclick=()=>{stop();clearTimeout(behaviorTimer);clearTimeout(rainTimer);left=total;field.innerHTML='';land.classList.remove('rainy');addPerchedCrow(1);addPerchedCrow(3);start.textContent='勉強開始';document.querySelector('#message span:first-child').textContent=quotes[0];document.querySelector('#birdMessage').textContent='電線のカラスは、君が始めるのを待っている。';draw();document.getElementById('done').classList.remove('show');crowBehavior();scheduleRain()};
+ document.getElementById('closeDone').onclick=()=>document.getElementById('done').classList.remove('show');
+ addPerchedCrow(1);addPerchedCrow(3);draw();crowBehavior();scheduleRain();
+})();
+</script></body></html>
